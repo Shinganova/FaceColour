@@ -32,4 +32,4 @@ Then build/run the `FaceColour` scheme on an iOS 17+ simulator.
 
 ## Status
 
-**Phase 0 — project setup.** Buildable SwiftUI skeleton. See `PLAN.md` for the phased roadmap.
+**Phase 1 — capture & face detection.** Take/choose a selfie and confirm a face is detected (Vision landmarks, overlay). See `PLAN.md` for the phased roadmap.

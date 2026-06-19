@@ -28,6 +28,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<!-- Camera / photo usage strings added in Phase 1 when capture is implemented. -->
+	<key>NSCameraUsageDescription</key>
+	<string>FaceColour uses the camera to take a selfie so it can analyze your skin tone and colors.</string>
 </dict>
 </plist>
