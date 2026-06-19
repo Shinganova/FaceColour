@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="740" viewBox="0 0 360 740" font-family="-apple-system, Segoe UI, Roboto, sans-serif">
+  <rect width="360" height="740" rx="28" fill="#15130F"/>
+  <!-- live preview suggestion -->
+  <circle cx="180" cy="300" r="92" fill="#3A332B"/>
+  <ellipse cx="180" cy="300" rx="70" ry="86" fill="none" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="2" stroke-dasharray="5 8"/>
+  <text x="180" y="430" font-size="13" fill="#CFC9C2" text-anchor="middle">Center your face in the frame</text>
+
+  <rect x="40" y="648" width="120" height="48" rx="12" fill="#2C2A26"/>
+  <text x="100" y="678" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle">Cancel</text>
+  <rect x="200" y="648" width="120" height="48" rx="12" fill="#E87A7F"/>
+  <text x="260" y="678" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle">Capture</text>
+
+  <text x="180" y="720" font-size="11" fill="#6E6A64" text-anchor="middle">Mockup — not a live screenshot</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="740" viewBox="0 0 360 740" font-family="-apple-system, Segoe UI, Roboto, sans-serif">
+  <rect width="360" height="740" rx="28" fill="#FFFFFF" stroke="#D9D4CF"/>
+  <text x="24" y="52" font-size="21" font-weight="700" fill="#1C1B1F">Shop your colors</text>
+  <text x="336" y="50" font-size="15" fill="#E87A7F" text-anchor="end">Done</text>
+
+  <g font-family="-apple-system, Segoe UI, Roboto, sans-serif">
+    <!-- product rows -->
+    <rect x="24" y="80" width="312" height="72" rx="14" fill="#ECE6E1"/>
+    <rect x="38" y="92" width="48" height="48" rx="9" fill="#B7410E"/>
+    <text x="100" y="112" font-size="15" font-weight="700" fill="#1C1B1F">Rust Knit Sweater</text>
+    <text x="100" y="132" font-size="12" fill="#5C5C5C">Sample Apparel</text>
+    <text x="316" y="120" font-size="14" font-weight="600" fill="#1C1B1F" text-anchor="end">$54</text>
+
+    <rect x="24" y="164" width="312" height="72" rx="14" fill="#ECE6E1"/>
+    <rect x="38" y="176" width="48" height="48" rx="9" fill="#D4A017"/>
+    <text x="100" y="196" font-size="15" font-weight="700" fill="#1C1B1F">Mustard Scarf</text>
+    <text x="100" y="216" font-size="12" fill="#5C5C5C">Sample Apparel</text>
+    <text x="316" y="204" font-size="14" font-weight="600" fill="#1C1B1F" text-anchor="end">$32</text>
+
+    <rect x="24" y="248" width="312" height="72" rx="14" fill="#ECE6E1"/>
+    <rect x="38" y="260" width="48" height="48" rx="9" fill="#a07e56"/>
+    <text x="100" y="280" font-size="15" font-weight="700" fill="#1C1B1F">Foundation — Tone 6</text>
+    <text x="100" y="300" font-size="12" fill="#5C5C5C">Sample Beauty</text>
+    <text x="316" y="288" font-size="14" font-weight="600" fill="#1C1B1F" text-anchor="end">$29</text>
+  </g>
+
+  <text x="24" y="356" font-size="11" fill="#9A938C">Tapping a product opens the retailer site (deep-link out).</text>
+  <text x="180" y="716" font-size="11" fill="#B0AAA4" text-anchor="middle">Mockup — not a live screenshot</text>
+</svg>
