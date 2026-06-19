@@ -34,4 +34,4 @@ Then build/run the `FaceColour` scheme on an iOS 17+ simulator.
 
 ## Status
 
-**Phase 5 — results, history & polish.** Both features (season + palette, Monk shade match) in a unified results screen, with on-device **saved history** (thumbnails), **share**, and empty/error states. Color engine in `Sources/FaceColour/ColorEngine` (pure, cross-platform); see `docs/color-algorithm.md`. See `PLAN.md` for the roadmap.
+**Phase 6 — product shop.** "Shop your colors" surfaces products matching the season palette + matched shade, deep-linking out to retailers (no in-app checkout). Provider-agnostic `ProductService` (mock catalog by default; set `PRODUCT_API_BASE_URL` + `PRODUCT_API_KEY` in Info.plist for a remote/affiliate provider). Color engine in `Sources/FaceColour/ColorEngine` (pure, cross-platform); see `docs/color-algorithm.md`. See `PLAN.md` for the roadmap.

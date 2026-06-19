@@ -9,6 +9,7 @@ struct CaptureView: View {
     @State private var pickerItem: PhotosPickerItem?
     @State private var showCamera = false
     @State private var showHistory = false
+    @State private var showShop = false
     @State private var saved = false
 
     private var cameraAvailable: Bool {
@@ -50,6 +51,9 @@ struct CaptureView: View {
         .sheet(isPresented: $showHistory) {
             HistoryListView(store: history)
         }
+        .sheet(isPresented: $showShop) {
+            ShopView(season: vm.season, monkTone: vm.shadeMatches.first?.tone.tone)
+        }
         .onChange(of: pickerItem) { _, item in
             guard let item else { return }
             Task {
@@ -76,6 +80,14 @@ struct CaptureView: View {
                         guide: vm.seasonGuide,
                         shadeMatches: vm.shadeMatches)
             resultActions(skin: skin, season: season)
+            Button {
+                showShop = true
+            } label: {
+                Label("Shop your colors", systemImage: "bag.fill")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
         } else if case .detected = vm.state {
             Label("Couldn't read skin reliably — try better lighting and face the camera.",
                   systemImage: "exclamationmark.triangle")
