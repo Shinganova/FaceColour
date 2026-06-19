@@ -36,21 +36,15 @@ jobs:
       - name: Pick an available iOS Simulator
         id: sim
         run: |
-          # Choose the newest available iPhone simulator so we don't pin a
-          # device name that may not exist on a given runner image.
-          UDID=$(xcrun simctl list devices available --json \
-            | python3 -c "import json,sys
-data = json.load(sys.stdin)['devices']
-best = ''
-for runtime, devices in data.items():
-    if 'iOS' not in runtime:
-        continue
-    for d in devices:
-        if d.get('isAvailable') and 'iPhone' in d['name']:
-            best = d['udid']
-print(best)")
+          # Grab the first available iPhone simulator UDID from simctl's text
+          # output. Parsing UDIDs with grep keeps this step free of fragile
+          # inline scripts and resilient to Xcode/device-name changes.
+          UDID=$(xcrun simctl list devices available \
+            | grep -Eo 'iPhone[^(]*\(([0-9A-Fa-f-]{36})\)' \
+            | grep -Eo '[0-9A-Fa-f-]{36}' \
+            | head -n 1)
           if [ -z "$UDID" ]; then
-            echo 'No available iPhone simulator found' >&2
+            echo "No available iPhone simulator found" >&2
             xcrun simctl list devices available
             exit 1
           fi
