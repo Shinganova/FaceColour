@@ -1,5 +1,7 @@
 # FaceColour
 
+[![CI](https://github.com/Shinganova/FaceColour/actions/workflows/ci.yml/badge.svg)](https://github.com/Shinganova/FaceColour/actions/workflows/ci.yml)
+
 A mobile app that analyzes a selfie to:
 1. **Color season analysis** — determine your seasonal color type and recommend flattering clothing / makeup / hair colors.
 2. **Skin-tone shade matching** — detect your skin tone and match it to product shades.
@@ -32,4 +34,4 @@ Then build/run the `FaceColour` scheme on an iOS 17+ simulator.
 
 ## Status
 
-**Phase 1 — capture & face detection.** Take/choose a selfie and confirm a face is detected (Vision landmarks, overlay). See `PLAN.md` for the phased roadmap.
+**Phase 2 — skin-tone extraction.** Selfie → face detection → sampled cheek/forehead skin → representative color with undertone, depth (ITA), and confidence. Color engine in `Sources/FaceColour/ColorEngine` (pure, cross-platform); see `docs/color-algorithm.md`. See `PLAN.md` for the roadmap.
