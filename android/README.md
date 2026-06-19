@@ -27,5 +27,7 @@ just open `android/` in Android Studio. CI installs Gradle directly.
   (single source of truth).
 - **A1** — CameraX live front-camera capture (with runtime permission), feeding the
   same analysis path as the gallery picker.
+- **A5** — saved history: Save to history, list + detail (JSON + thumbnails on
+  device); shared `ResultsContent` reused by the live screen and history detail.
 
-Next: history, and the shop.
+Next: the shop.
