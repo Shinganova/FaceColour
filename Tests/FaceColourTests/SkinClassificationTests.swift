@@ -1,8 +1,8 @@
 import XCTest
 @testable import FaceColour
 
-/// Locks the undertone / depth bin boundaries so behavior (and the Android port)
-/// stays in sync with `docs/color-algorithm.md`.
+/// Locks the undertone / Fitzpatrick bin boundaries so behavior (and the Android
+/// port) stays in sync with `docs/color-algorithm.md`.
 final class SkinClassificationTests: XCTestCase {
 
     func testUndertoneBands() {
@@ -13,12 +13,15 @@ final class SkinClassificationTests: XCTestCase {
         XCTAssertEqual(Undertone.classify(hueAngle: 70), .warm)
     }
 
-    func testDepthBandsByITA() {
-        XCTAssertEqual(Depth.classify(ita: 60), .veryLight)
-        XCTAssertEqual(Depth.classify(ita: 50), .light)
-        XCTAssertEqual(Depth.classify(ita: 35), .intermediate)
-        XCTAssertEqual(Depth.classify(ita: 20), .tan)
-        XCTAssertEqual(Depth.classify(ita: 0), .brown)
-        XCTAssertEqual(Depth.classify(ita: -40), .dark)
+    func testFitzpatrickBandsByITA() {
+        XCTAssertEqual(Fitzpatrick.classify(ita: 60), .typeI)
+        XCTAssertEqual(Fitzpatrick.classify(ita: 55), .typeI)    // lower edge of I
+        XCTAssertEqual(Fitzpatrick.classify(ita: 50), .typeII)
+        XCTAssertEqual(Fitzpatrick.classify(ita: 41), .typeII)   // lower edge of II
+        XCTAssertEqual(Fitzpatrick.classify(ita: 35), .typeIII)
+        XCTAssertEqual(Fitzpatrick.classify(ita: 20), .typeIV)
+        XCTAssertEqual(Fitzpatrick.classify(ita: 0), .typeV)
+        XCTAssertEqual(Fitzpatrick.classify(ita: -30), .typeV)   // -30 is included in V ([-30, 10))
+        XCTAssertEqual(Fitzpatrick.classify(ita: -40), .typeVI)
     }
 }

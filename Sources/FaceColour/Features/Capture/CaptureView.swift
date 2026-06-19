@@ -13,16 +13,24 @@ struct CaptureView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 20) {
-                imageArea
-                statusView
-                if let result = vm.skinResult {
-                    SkinToneResultCard(result: result)
+            VStack(spacing: 0) {
+                ScrollView {
+                    VStack(spacing: 20) {
+                        imageArea
+                        statusView
+                        if let result = vm.skinResult {
+                            SkinToneResultCard(result: result)
+                        }
+                        if let season = vm.season, let guide = vm.seasonGuide {
+                            SeasonResultView(season: season, guide: guide)
+                        }
+                    }
+                    .padding()
                 }
-                Spacer(minLength: 0)
                 actionButtons
+                    .padding()
+                    .background(.bar)
             }
-            .padding()
             .navigationTitle("FaceColour")
             .navigationBarTitleDisplayMode(.inline)
         }

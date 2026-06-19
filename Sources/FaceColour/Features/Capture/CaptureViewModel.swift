@@ -17,10 +17,13 @@ final class CaptureViewModel {
     private(set) var state: State = .empty
     private(set) var skinResult: SkinToneResult?
     private(set) var samplePatches: [CGRect] = []
+    private(set) var season: Season?
+    private(set) var seasonGuide: SeasonGuide?
 
     private let detector = FaceDetector()
     private let sampler = SkinSampler()
     private let analyzer = SkinToneAnalyzer()
+    private let guideBook = SeasonGuideLoader.loadBundled()
 
     /// Pixel size of the current (normalized) image, used by the overlay to map
     /// detection coordinates onto the on-screen image.
@@ -35,6 +38,8 @@ final class CaptureViewModel {
         faces = []
         skinResult = nil
         samplePatches = []
+        season = nil
+        seasonGuide = nil
         state = .detecting
 
         do {
@@ -48,6 +53,14 @@ final class CaptureViewModel {
                 let output = sampler.sample(image: upright, face: primary)
                 samplePatches = output.patches
                 skinResult = analyzer.analyze(samples: output.samples)
+
+                if let skin = skinResult {
+                    let s = Season.classify(undertone: skin.undertone,
+                                            depth: skin.fitzpatrick,
+                                            hueAngle: skin.hueAngle)
+                    season = s
+                    seasonGuide = guideBook?[s]
+                }
             }
 
             state = detected.isEmpty ? .noFace : .detected(faceCount: detected.count)
@@ -62,6 +75,8 @@ final class CaptureViewModel {
         faces = []
         skinResult = nil
         samplePatches = []
+        season = nil
+        seasonGuide = nil
         state = .empty
     }
 }

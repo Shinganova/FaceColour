@@ -8,7 +8,8 @@
 
 ## Status
 - **Phase 2 (done):** sampling, color conversions, undertone + depth, confidence.
-- **Phase 3/4:** season classification + shade matching (TBD).
+- **Phase 3 (done):** 4-season classification + palettes (§7).
+- **Phase 4:** shade matching (TBD).
 
 ## 1. Input
 A face image (expected upright / EXIF-normalized) plus a face bounding box in image
@@ -44,13 +45,16 @@ pixel coordinates, top-left origin.
 4. **Representative** skin color = **mean** of inliers (computed in both Lab and RGB).
 5. Require ≥ 5 inliers at steps 1 and 3, else return "no result".
 
-## 5. Undertone & depth
+## 5. Undertone & depth (Fitzpatrick)
 - **Hue angle** `h = atan2(b*, a*)` (degrees, normalized 0..<360).
 - **Undertone:** `h < 45 → cool`, `45 ≤ h ≤ 57 → neutral`, `h > 57 → warm`.
   (Higher angle = more yellow/golden; lower = more red/pink.)
 - **ITA** (Individual Typology Angle) `= atan2(L* − 50, b*)` (degrees).
-- **Depth** by ITA: `>55 veryLight`, `41–55 light`, `28–41 intermediate`,
-  `10–28 tan`, `−30–10 brown`, `<−30 dark`.
+- **Depth = Fitzpatrick phototype (I–VI)**, *estimated* from ITA. True Fitzpatrick
+  typing is a sun-reaction questionnaire; from a photo we approximate it via ITA using
+  the established correspondence (Del Bino et al.). Bins (ITA half-open, closed at the
+  lower bound): `≥55 → I`, `[41,55) → II`, `[28,41) → III`, `[10,28) → IV`,
+  `[−30,10) → V`, `<−30 → VI`.
 
 ## 6. Confidence
 From inlier `count` and `spread` (mean ΔE76 of inliers to the representative):
@@ -58,8 +62,17 @@ From inlier `count` and `spread` (mean ΔE76 of inliers to the representative):
 - **low:** `count < 30` OR `spread > 14`
 - **medium:** otherwise
 
+## 7. Season classification (4-season MVP)
+From undertone + Fitzpatrick (depth); contrast not yet used.
+- **Warm-leaning?** warm → yes; cool → no; neutral → yes iff hue angle ≥ 51°.
+- **Deep?** Fitzpatrick ∈ {IV, V, VI}.
+- Map: warm+light → **Spring**, warm+deep → **Autumn**, cool+light → **Summer**,
+  cool+deep → **Winter**.
+- Palettes are data (`Resources/seasons.json`), shared with the Android port.
+
 ## Locked decisions
 - Season system: **4-season** for MVP, extensible to 12-season.
+- Depth scale: **Fitzpatrick phototype (I–VI)**, estimated from ITA (see §5).
 - Shade reference: **Monk Skin Tone scale** (open, 10 tones) as the base.
 
 ## Tunables
@@ -71,4 +84,4 @@ classification tests together (iOS + Android).
 - sRGB white → Lab (100, 0, 0); black → L 0; gray 0.5 → L≈53.4, a≈0, b≈0;
   red (1,0,0) → Lab ≈ (53.24, 80.09, 67.20).
 - HSV: red → (0°, 1, 1); gray → S 0.
-- Undertone bins and Depth/ITA bins per §5 (see `SkinClassificationTests`).
+- Undertone bins and Fitzpatrick/ITA bins per §5 (see `SkinClassificationTests`).

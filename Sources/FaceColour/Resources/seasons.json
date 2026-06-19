@@ -1,0 +1,82 @@
+{
+  "spring": {
+    "title": "Spring",
+    "summary": "Warm, light, and clear — fresh colors with golden warmth suit you best.",
+    "palette": [
+      { "name": "Coral", "hex": "#FF7F50" },
+      { "name": "Peach", "hex": "#FFB07C" },
+      { "name": "Golden Yellow", "hex": "#FFC233" },
+      { "name": "Warm Turquoise", "hex": "#2EC4B6" },
+      { "name": "Bright Green", "hex": "#7CB342" },
+      { "name": "Salmon", "hex": "#FA8072" },
+      { "name": "Warm Pink", "hex": "#FF6F91" },
+      { "name": "Camel", "hex": "#C19A6B" },
+      { "name": "Ivory", "hex": "#FFF8E7" }
+    ],
+    "avoid": [
+      { "name": "Black", "hex": "#000000" },
+      { "name": "Dusty Mauve", "hex": "#B784A7" },
+      { "name": "Charcoal", "hex": "#36454F" }
+    ]
+  },
+  "summer": {
+    "title": "Summer",
+    "summary": "Cool, light, and soft — muted, dusty tones with blue undertones flatter you.",
+    "palette": [
+      { "name": "Soft Rose", "hex": "#D8A1A1" },
+      { "name": "Powder Blue", "hex": "#AEC6CF" },
+      { "name": "Lavender", "hex": "#B19CD9" },
+      { "name": "Dusty Mauve", "hex": "#B784A7" },
+      { "name": "Soft Pink", "hex": "#E0BFB8" },
+      { "name": "Sage", "hex": "#A3B18A" },
+      { "name": "Periwinkle", "hex": "#8F9FE0" },
+      { "name": "Soft Navy", "hex": "#3B4A6B" },
+      { "name": "Slate Gray", "hex": "#8A95A5" }
+    ],
+    "avoid": [
+      { "name": "Orange", "hex": "#FF7F50" },
+      { "name": "Tomato", "hex": "#FF6347" },
+      { "name": "Mustard", "hex": "#D4A017" }
+    ]
+  },
+  "autumn": {
+    "title": "Autumn",
+    "summary": "Warm, deep, and muted — rich, earthy tones suit you best.",
+    "palette": [
+      { "name": "Rust", "hex": "#B7410E" },
+      { "name": "Olive", "hex": "#808000" },
+      { "name": "Mustard", "hex": "#D4A017" },
+      { "name": "Terracotta", "hex": "#E2725B" },
+      { "name": "Forest Green", "hex": "#2E5E3A" },
+      { "name": "Teal", "hex": "#357A8C" },
+      { "name": "Burnt Orange", "hex": "#CC5500" },
+      { "name": "Chocolate", "hex": "#5D4037" },
+      { "name": "Cream", "hex": "#F3E5AB" }
+    ],
+    "avoid": [
+      { "name": "Icy Pink", "hex": "#F4C2D7" },
+      { "name": "Fuchsia", "hex": "#D6006E" },
+      { "name": "Pure White", "hex": "#FFFFFF" }
+    ]
+  },
+  "winter": {
+    "title": "Winter",
+    "summary": "Cool, deep, and clear — bold, icy, high-contrast colors suit you.",
+    "palette": [
+      { "name": "Pure White", "hex": "#FFFFFF" },
+      { "name": "Black", "hex": "#000000" },
+      { "name": "True Red", "hex": "#D7263D" },
+      { "name": "Royal Blue", "hex": "#1F3FB8" },
+      { "name": "Emerald", "hex": "#009B77" },
+      { "name": "Magenta", "hex": "#C71585" },
+      { "name": "Icy Pink", "hex": "#F4C2D7" },
+      { "name": "Navy", "hex": "#0B1F4D" },
+      { "name": "Fuchsia", "hex": "#D6006E" }
+    ],
+    "avoid": [
+      { "name": "Terracotta", "hex": "#E2725B" },
+      { "name": "Camel", "hex": "#C19A6B" },
+      { "name": "Olive", "hex": "#808000" }
+    ]
+  }
+}

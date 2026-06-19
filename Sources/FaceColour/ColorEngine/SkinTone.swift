@@ -17,31 +17,45 @@ enum Undertone: String, Equatable {
     var displayName: String { rawValue.capitalized }
 }
 
-/// Skin depth (lightness), binned by the Individual Typology Angle (ITA),
-/// a dermatology-standard measure. Maps cleanly onto the Monk scale in Phase 4.
-enum Depth: String, Equatable {
-    case veryLight, light, intermediate, tan, brown, dark
+/// Skin depth expressed as a **Fitzpatrick phototype (Types I–VI)**.
+///
+/// True Fitzpatrick typing is a sun-reaction questionnaire; from a single photo we
+/// can only *estimate* the phototype from skin lightness. We do this via the
+/// Individual Typology Angle (ITA), using the established ITA→Fitzpatrick
+/// correspondence (Del Bino et al.). This is an approximation, not a clinical
+/// classification. ITA bin boundaries are unchanged from the prior depth scale.
+enum Fitzpatrick: String, Equatable, CaseIterable {
+    case typeI = "I"
+    case typeII = "II"
+    case typeIII = "III"
+    case typeIV = "IV"
+    case typeV = "V"
+    case typeVI = "VI"
 
-    /// Classify from ITA (degrees): `atan2(L* - 50, b*)`.
-    static func classify(ita: Double) -> Depth {
+    /// Estimate the Fitzpatrick phototype from ITA (degrees): `atan2(L* - 50, b*)`.
+    static func classify(ita: Double) -> Fitzpatrick {
         switch ita {
-        case 55...: return .veryLight
-        case 41 ..< 55: return .light
-        case 28 ..< 41: return .intermediate
-        case 10 ..< 28: return .tan
-        case -30 ..< 10: return .brown
-        default: return .dark
+        case 55...: return .typeI
+        case 41 ..< 55: return .typeII
+        case 28 ..< 41: return .typeIII
+        case 10 ..< 28: return .typeIV
+        case -30 ..< 10: return .typeV
+        default: return .typeVI
         }
     }
 
-    var displayName: String {
+    /// e.g. "Type III".
+    var displayName: String { "Type \(rawValue)" }
+
+    /// Short human-readable depth label for the phototype.
+    var depthDescription: String {
         switch self {
-        case .veryLight: "Very light"
-        case .light: "Light"
-        case .intermediate: "Intermediate"
-        case .tan: "Tan"
-        case .brown: "Brown"
-        case .dark: "Dark"
+        case .typeI: "Very light"
+        case .typeII: "Light"
+        case .typeIII: "Intermediate"
+        case .typeIV: "Tan"
+        case .typeV: "Brown"
+        case .typeVI: "Deep"
         }
     }
 }
@@ -85,7 +99,7 @@ struct SkinToneResult: Equatable {
     let hueAngle: Double
     let ita: Double
     let undertone: Undertone
-    let depth: Depth
+    let fitzpatrick: Fitzpatrick
     let confidence: Confidence
     let sampleCount: Int
 }

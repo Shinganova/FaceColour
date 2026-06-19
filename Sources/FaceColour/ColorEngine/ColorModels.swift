@@ -16,6 +16,16 @@ struct RGBColor: Equatable {
     init(r8: UInt8, g8: UInt8, b8: UInt8) {
         self.init(r: Double(r8) / 255, g: Double(g8) / 255, b: Double(b8) / 255)
     }
+
+    /// From a `#RRGGBB` (or `RRGGBB`) hex string. Returns nil if malformed.
+    init?(hex: String) {
+        var s = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        if s.hasPrefix("#") { s.removeFirst() }
+        guard s.count == 6, let v = Int(s, radix: 16) else { return nil }
+        self.init(r8: UInt8((v >> 16) & 0xFF),
+                  g8: UInt8((v >> 8) & 0xFF),
+                  b8: UInt8(v & 0xFF))
+    }
 }
 
 /// A CIELAB color (D65 white point).

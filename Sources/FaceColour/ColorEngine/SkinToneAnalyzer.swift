@@ -44,7 +44,7 @@ struct SkinToneAnalyzer {
             hueAngle: hue,
             ita: ita,
             undertone: .classify(hueAngle: hue),
-            depth: .classify(ita: ita),
+            fitzpatrick: .classify(ita: ita),
             confidence: Self.confidence(count: inliers.count, spread: spread),
             sampleCount: inliers.count
         )
