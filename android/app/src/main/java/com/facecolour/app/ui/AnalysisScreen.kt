@@ -1,9 +1,17 @@
 package com.facecolour.app.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Color as AndroidColor
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -35,9 +43,24 @@ import com.facecolour.app.engine.SkinToneResult
 @Composable
 fun AnalysisScreen(vm: AnalysisViewModel = viewModel()) {
     val state = vm.state
-    val picker = rememberLauncherForActivityResult(
+    val context = LocalContext.current
+    var showCamera by remember { mutableStateOf(false) }
+
+    val galleryPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.PickVisualMedia()
     ) { uri -> if (uri != null) vm.analyze(uri) }
+
+    val cameraPermission = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted -> if (granted) showCamera = true }
+
+    if (showCamera) {
+        CameraScreen(
+            onCaptured = { uri -> showCamera = false; vm.analyze(uri) },
+            onCancel = { showCamera = false }
+        )
+        return
+    }
 
     Column(
         modifier = Modifier
@@ -81,10 +104,19 @@ fun AnalysisScreen(vm: AnalysisViewModel = viewModel()) {
             if (state.shades.isNotEmpty()) ShadeCard(state.shades)
         }
 
-        Button(onClick = {
-            picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        }) {
-            Text("Choose Photo")
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Button(onClick = {
+                val granted = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
+                    PackageManager.PERMISSION_GRANTED
+                if (granted) showCamera = true else cameraPermission.launch(Manifest.permission.CAMERA)
+            }) {
+                Text("Take Photo")
+            }
+            Button(onClick = {
+                galleryPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }) {
+                Text("Choose Photo")
+            }
         }
     }
 }

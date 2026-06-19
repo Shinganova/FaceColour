@@ -21,9 +21,11 @@ just open `android/` in Android Studio. CI installs Gradle directly.
 ## Status
 - **A0** — scaffolding + CI.
 - **A2** — Kotlin color engine + parity tests (`engine/`).
-- **A3** — capture & analysis: pick a photo → ML Kit face detection → skin sampling
-  → engine → Compose results (skin tone, season palette, Monk shades). Shared
-  `seasons.json` / `shades.json` are wired in as Android assets from the iOS
-  Resources (single source of truth).
+- **A3** — capture & analysis: photo → ML Kit face detection → skin sampling →
+  engine → Compose results (skin tone, season palette, Monk shades). Shared
+  `seasons.json` / `shades.json` wired in as Android assets from the iOS Resources
+  (single source of truth).
+- **A1** — CameraX live front-camera capture (with runtime permission), feeding the
+  same analysis path as the gallery picker.
 
-Next: CameraX live capture, history, and the shop.
+Next: history, and the shop.
