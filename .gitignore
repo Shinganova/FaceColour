@@ -1,0 +1,28 @@
+# Xcode / Swift
+*.xcodeproj/
+*.xcworkspace/
+!project.yml
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+Packages/
+Package.resolved
+
+# CocoaPods / Carthage (if ever used)
+Pods/
+Carthage/Build/
+
+# macOS
+.DS_Store
+
+# Misc
+*.log
