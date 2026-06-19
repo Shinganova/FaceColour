@@ -34,4 +34,4 @@ Then build/run the `FaceColour` scheme on an iOS 17+ simulator.
 
 ## Status
 
-**Phase 6 — product shop.** "Shop your colors" surfaces products matching the season palette + matched shade, deep-linking out to retailers (no in-app checkout). Provider-agnostic `ProductService` (mock catalog by default; set `PRODUCT_API_BASE_URL` + `PRODUCT_API_KEY` in Info.plist for a remote/affiliate provider). Color engine in `Sources/FaceColour/ColorEngine` (pure, cross-platform); see `docs/color-algorithm.md`. See `PLAN.md` for the roadmap.
+**Phase 7 — App Store prep (in progress).** All six feature phases complete. Repo-side prep done: privacy manifest (`PrivacyInfo.xcprivacy`), export-compliance flag, [`PRIVACY.md`](PRIVACY.md), listing draft (`docs/appstore.md`), and the Mac-side runbook (`docs/release-checklist.md`). Remaining steps (icon, screenshots, signing, submission) need a Mac + Apple Developer account — see the checklist. Color engine in `Sources/FaceColour/ColorEngine` (pure, cross-platform); see `docs/color-algorithm.md`. See `PLAN.md` for the roadmap.

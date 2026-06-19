@@ -30,5 +30,7 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>FaceColour uses the camera to take a selfie so it can analyze your skin tone and colors.</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
