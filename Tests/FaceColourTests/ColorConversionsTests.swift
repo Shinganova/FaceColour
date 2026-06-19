@@ -50,4 +50,25 @@ final class ColorConversionsTests: XCTestCase {
         let c = LabColor(L: 50, a: 10, b: 20)
         XCTAssertEqual(ColorConversions.deltaE76(c, c), 0, accuracy: 1e-9)
     }
+
+    // MARK: CIEDE2000 — Sharma, Wu & Dalal reference pairs.
+
+    func testDeltaE2000ReferencePairs() {
+        let p1a = LabColor(L: 50, a: 2.6772, b: -79.7751)
+        let p1b = LabColor(L: 50, a: 0, b: -82.7485)
+        XCTAssertEqual(ColorConversions.deltaE2000(p1a, p1b), 2.0425, accuracy: 0.001)
+
+        let p2a = LabColor(L: 50, a: 0, b: 0)
+        let p2b = LabColor(L: 50, a: -1, b: 2)
+        XCTAssertEqual(ColorConversions.deltaE2000(p2a, p2b), 2.3669, accuracy: 0.001)
+
+        let p3a = LabColor(L: 50, a: 2.49, b: -0.001)
+        let p3b = LabColor(L: 50, a: -2.49, b: 0.0009)
+        XCTAssertEqual(ColorConversions.deltaE2000(p3a, p3b), 7.1792, accuracy: 0.001)
+    }
+
+    func testDeltaE2000IdentityIsZero() {
+        let c = LabColor(L: 68, a: 12, b: 22)
+        XCTAssertEqual(ColorConversions.deltaE2000(c, c), 0, accuracy: 1e-6)
+    }
 }

@@ -9,7 +9,7 @@
 ## Status
 - **Phase 2 (done):** sampling, color conversions, undertone + depth, confidence.
 - **Phase 3 (done):** 4-season classification + palettes (§7).
-- **Phase 4:** shade matching (TBD).
+- **Phase 4 (done):** shade matching vs Monk reference tones (§8).
 
 ## 1. Input
 A face image (expected upright / EXIF-normalized) plus a face bounding box in image
@@ -69,6 +69,13 @@ From undertone + Fitzpatrick (depth); contrast not yet used.
 - Map: warm+light → **Spring**, warm+deep → **Autumn**, cool+light → **Summer**,
   cool+deep → **Winter**.
 - Palettes are data (`Resources/seasons.json`), shared with the Android port.
+
+## 8. Shade matching
+- Reference set: **Monk Skin Tone scale**, 10 tones (`Resources/shades.json`), shared
+  with the Android port.
+- Each reference hex → sRGB → Lab. Score the representative skin Lab against every
+  reference with **CIEDE2000** (§3); return the top-N by ascending ΔE2000.
+- ΔE2000 is validated against the Sharma, Wu & Dalal reference pairs in tests.
 
 ## Locked decisions
 - Season system: **4-season** for MVP, extensible to 12-season.

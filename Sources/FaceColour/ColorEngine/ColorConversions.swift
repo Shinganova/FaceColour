@@ -65,10 +65,82 @@ enum ColorConversions {
 
     // MARK: Distance
 
-    /// CIE76 color difference (Euclidean in Lab). Adequate for outlier rejection;
-    /// shade matching (Phase 4) will use CIEDE2000.
+    /// CIE76 color difference (Euclidean in Lab). Adequate for outlier rejection.
     static func deltaE76(_ x: LabColor, _ y: LabColor) -> Double {
         let dL = x.L - y.L, da = x.a - y.a, db = x.b - y.b
         return (dL * dL + da * da + db * db).squareRoot()
+    }
+
+    /// CIEDE2000 color difference (kL=kC=kH=1). Perceptually accurate — used for
+    /// shade matching. Follows Sharma, Wu & Dalal (2005); validated against their
+    /// reference pairs in tests.
+    static func deltaE2000(_ x: LabColor, _ y: LabColor) -> Double {
+        let kL = 1.0, kC = 1.0, kH = 1.0
+        let deg = Double.pi / 180
+
+        let c1 = (x.a * x.a + x.b * x.b).squareRoot()
+        let c2 = (y.a * y.a + y.b * y.b).squareRoot()
+        let cBar = (c1 + c2) / 2
+        let cBar7 = pow(cBar, 7)
+        let g = 0.5 * (1 - (cBar7 / (cBar7 + pow(25.0, 7))).squareRoot())
+
+        let a1p = (1 + g) * x.a
+        let a2p = (1 + g) * y.a
+        let c1p = (a1p * a1p + x.b * x.b).squareRoot()
+        let c2p = (a2p * a2p + y.b * y.b).squareRoot()
+
+        func hue(_ b: Double, _ ap: Double) -> Double {
+            if ap == 0 && b == 0 { return 0 }
+            var h = atan2(b, ap) / deg
+            if h < 0 { h += 360 }
+            return h
+        }
+        let h1p = hue(x.b, a1p)
+        let h2p = hue(y.b, a2p)
+
+        let dLp = y.L - x.L
+        let dCp = c2p - c1p
+
+        var dhp = 0.0
+        if c1p * c2p != 0 {
+            let diff = h2p - h1p
+            if abs(diff) <= 180 { dhp = diff }
+            else if diff > 180 { dhp = diff - 360 }
+            else { dhp = diff + 360 }
+        }
+        let dHp = 2 * (c1p * c2p).squareRoot() * sin((dhp / 2) * deg)
+
+        let lBarp = (x.L + y.L) / 2
+        let cBarp = (c1p + c2p) / 2
+
+        var hBarp = h1p + h2p
+        if c1p * c2p != 0 {
+            if abs(h1p - h2p) <= 180 {
+                hBarp = (h1p + h2p) / 2
+            } else if (h1p + h2p) < 360 {
+                hBarp = (h1p + h2p + 360) / 2
+            } else {
+                hBarp = (h1p + h2p - 360) / 2
+            }
+        }
+
+        let t = 1
+            - 0.17 * cos((hBarp - 30) * deg)
+            + 0.24 * cos((2 * hBarp) * deg)
+            + 0.32 * cos((3 * hBarp + 6) * deg)
+            - 0.20 * cos((4 * hBarp - 63) * deg)
+
+        let dTheta = 30 * exp(-pow((hBarp - 275) / 25, 2))
+        let cBarp7 = pow(cBarp, 7)
+        let rc = 2 * (cBarp7 / (cBarp7 + pow(25.0, 7))).squareRoot()
+        let sl = 1 + (0.015 * pow(lBarp - 50, 2)) / (20 + pow(lBarp - 50, 2)).squareRoot()
+        let sc = 1 + 0.045 * cBarp
+        let sh = 1 + 0.015 * cBarp * t
+        let rt = -sin(2 * dTheta * deg) * rc
+
+        let termL = dLp / (kL * sl)
+        let termC = dCp / (kC * sc)
+        let termH = dHp / (kH * sh)
+        return (termL * termL + termC * termC + termH * termH + rt * termC * termH).squareRoot()
     }
 }

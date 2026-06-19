@@ -1,0 +1,14 @@
+{
+  "tones": [
+    { "tone": 1,  "hex": "#f6ede4" },
+    { "tone": 2,  "hex": "#f3e7db" },
+    { "tone": 3,  "hex": "#f7ead0" },
+    { "tone": 4,  "hex": "#eadaba" },
+    { "tone": 5,  "hex": "#d7bd96" },
+    { "tone": 6,  "hex": "#a07e56" },
+    { "tone": 7,  "hex": "#825c43" },
+    { "tone": 8,  "hex": "#604134" },
+    { "tone": 9,  "hex": "#3a312a" },
+    { "tone": 10, "hex": "#292420" }
+  ]
+}

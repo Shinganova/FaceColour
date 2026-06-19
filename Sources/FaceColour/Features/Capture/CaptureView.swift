@@ -24,6 +24,9 @@ struct CaptureView: View {
                         if let season = vm.season, let guide = vm.seasonGuide {
                             SeasonResultView(season: season, guide: guide)
                         }
+                        if !vm.shadeMatches.isEmpty {
+                            ShadeMatchView(matches: vm.shadeMatches)
+                        }
                     }
                     .padding()
                 }

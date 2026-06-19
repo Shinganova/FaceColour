@@ -19,11 +19,14 @@ final class CaptureViewModel {
     private(set) var samplePatches: [CGRect] = []
     private(set) var season: Season?
     private(set) var seasonGuide: SeasonGuide?
+    private(set) var shadeMatches: [ShadeMatch] = []
 
     private let detector = FaceDetector()
     private let sampler = SkinSampler()
     private let analyzer = SkinToneAnalyzer()
+    private let matcher = ShadeMatcher()
     private let guideBook = SeasonGuideLoader.loadBundled()
+    private let shadeReference = ShadeLoader.loadBundled()
 
     /// Pixel size of the current (normalized) image, used by the overlay to map
     /// detection coordinates onto the on-screen image.
@@ -40,6 +43,7 @@ final class CaptureViewModel {
         samplePatches = []
         season = nil
         seasonGuide = nil
+        shadeMatches = []
         state = .detecting
 
         do {
@@ -60,6 +64,10 @@ final class CaptureViewModel {
                                             hueAngle: skin.hueAngle)
                     season = s
                     seasonGuide = guideBook?[s]
+
+                    if let tones = shadeReference?.tones {
+                        shadeMatches = matcher.match(skin.lab, against: tones, topN: 3)
+                    }
                 }
             }
 
@@ -77,6 +85,7 @@ final class CaptureViewModel {
         samplePatches = []
         season = nil
         seasonGuide = nil
+        shadeMatches = []
         state = .empty
     }
 }

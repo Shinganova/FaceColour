@@ -34,4 +34,4 @@ Then build/run the `FaceColour` scheme on an iOS 17+ simulator.
 
 ## Status
 
-**Phase 3 — season analysis + palettes.** Selfie → skin tone (undertone + Fitzpatrick depth) → 4-season type (Spring/Summer/Autumn/Winter) with a recommended color palette (`Resources/seasons.json`). Color engine in `Sources/FaceColour/ColorEngine` (pure, cross-platform); see `docs/color-algorithm.md`. See `PLAN.md` for the roadmap.
+**Phase 4 — shade matcher.** Selfie → skin tone → (1) 4-season type + palette and (2) closest **Monk skin-tone** shades by CIEDE2000 (`Resources/seasons.json`, `Resources/shades.json`). Color engine in `Sources/FaceColour/ColorEngine` (pure, cross-platform); see `docs/color-algorithm.md`. See `PLAN.md` for the roadmap.
