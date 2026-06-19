@@ -15,8 +15,12 @@ final class CaptureViewModel {
     private(set) var image: UIImage?
     private(set) var faces: [DetectedFace] = []
     private(set) var state: State = .empty
+    private(set) var skinResult: SkinToneResult?
+    private(set) var samplePatches: [CGRect] = []
 
     private let detector = FaceDetector()
+    private let sampler = SkinSampler()
+    private let analyzer = SkinToneAnalyzer()
 
     /// Pixel size of the current (normalized) image, used by the overlay to map
     /// detection coordinates onto the on-screen image.
@@ -29,6 +33,8 @@ final class CaptureViewModel {
         let upright = newImage.normalizedUp()
         image = upright
         faces = []
+        skinResult = nil
+        samplePatches = []
         state = .detecting
 
         do {
@@ -36,6 +42,14 @@ final class CaptureViewModel {
             // Guard against a newer image having been set while we were detecting.
             guard image === upright else { return }
             faces = detected
+
+            // Analyze skin tone on the largest (primary) face.
+            if let primary = detected.max(by: { $0.boundingBox.area < $1.boundingBox.area }) {
+                let output = sampler.sample(image: upright, face: primary)
+                samplePatches = output.patches
+                skinResult = analyzer.analyze(samples: output.samples)
+            }
+
             state = detected.isEmpty ? .noFace : .detected(faceCount: detected.count)
         } catch {
             guard image === upright else { return }
@@ -46,6 +60,8 @@ final class CaptureViewModel {
     func reset() {
         image = nil
         faces = []
+        skinResult = nil
+        samplePatches = []
         state = .empty
     }
 }

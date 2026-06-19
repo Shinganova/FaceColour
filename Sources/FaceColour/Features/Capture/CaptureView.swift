@@ -16,6 +16,9 @@ struct CaptureView: View {
             VStack(spacing: 20) {
                 imageArea
                 statusView
+                if let result = vm.skinResult {
+                    SkinToneResultCard(result: result)
+                }
                 Spacer(minLength: 0)
                 actionButtons
             }
@@ -54,7 +57,9 @@ struct CaptureView: View {
                     .resizable()
                     .scaledToFit()
                     .overlay {
-                        FaceOverlayView(imageSize: vm.imagePixelSize, faces: vm.faces)
+                        FaceOverlayView(imageSize: vm.imagePixelSize,
+                                        faces: vm.faces,
+                                        patches: vm.samplePatches)
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 16))
             } else {

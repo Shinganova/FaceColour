@@ -7,11 +7,26 @@ struct FaceOverlayView: View {
     let imageSize: CGSize
     /// Faces in image-pixel coordinates, top-left origin.
     let faces: [DetectedFace]
+    /// Sampled skin patches in image-pixel coordinates, top-left origin.
+    var patches: [CGRect] = []
 
     var body: some View {
         GeometryReader { geo in
             let fitted = AspectFit.rect(content: imageSize, in: geo.size)
             let scale = imageSize.width > 0 ? fitted.width / imageSize.width : 0
+
+            ForEach(Array(patches.enumerated()), id: \.offset) { _, patch in
+                let r = CGRect(
+                    x: fitted.minX + patch.minX * scale,
+                    y: fitted.minY + patch.minY * scale,
+                    width: patch.width * scale,
+                    height: patch.height * scale
+                )
+                Rectangle()
+                    .strokeBorder(Color.white.opacity(0.9), lineWidth: 1.5)
+                    .frame(width: r.width, height: r.height)
+                    .position(x: r.midX, y: r.midY)
+            }
 
             ForEach(faces) { face in
                 let box = CGRect(
