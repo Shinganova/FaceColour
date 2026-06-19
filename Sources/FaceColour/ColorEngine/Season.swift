@@ -1,7 +1,7 @@
 import Foundation
 
 /// 4-season color type (MVP). Designed to extend to a 12-season model later.
-enum Season: String, Equatable, CaseIterable {
+enum Season: String, Codable, Equatable, CaseIterable {
     case spring, summer, autumn, winter
 
     var displayName: String { rawValue.capitalized }

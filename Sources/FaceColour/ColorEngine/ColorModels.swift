@@ -26,6 +26,12 @@ struct RGBColor: Equatable {
                   g8: UInt8((v >> 8) & 0xFF),
                   b8: UInt8(v & 0xFF))
     }
+
+    /// `#RRGGBB` (uppercase) representation, clamped to 0...255.
+    var hexString: String {
+        func channel(_ value: Double) -> Int { max(0, min(255, Int((value * 255).rounded()))) }
+        return String(format: "#%02X%02X%02X", channel(r), channel(g), channel(b))
+    }
 }
 
 /// A CIELAB color (D65 white point).

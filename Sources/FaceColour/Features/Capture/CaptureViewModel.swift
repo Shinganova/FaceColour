@@ -78,6 +78,24 @@ final class CaptureViewModel {
         }
     }
 
+    /// Build a persistable record from the current analysis, or nil if incomplete.
+    func makeRecord() -> AnalysisRecord? {
+        guard let skin = skinResult, let season else { return nil }
+        return AnalysisRecord(
+            id: UUID(),
+            date: Date(),
+            representativeHex: skin.representativeRGB.hexString,
+            undertone: skin.undertone,
+            fitzpatrick: skin.fitzpatrick,
+            confidence: skin.confidence,
+            season: season,
+            shadeMatches: shadeMatches.map {
+                ShadeMatchRecord(tone: $0.tone.tone, hex: $0.tone.hex, deltaE: $0.deltaE)
+            },
+            thumbnailFileName: nil
+        )
+    }
+
     func reset() {
         image = nil
         faces = []

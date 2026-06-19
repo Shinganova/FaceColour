@@ -1,27 +1,31 @@
 import SwiftUI
 
-/// Compact summary of a detected skin tone: swatch + undertone / depth / confidence.
+/// Compact summary of a detected skin tone: swatch + undertone / type / confidence.
 struct SkinToneResultCard: View {
-    let result: SkinToneResult
+    let representativeRGB: RGBColor
+    let undertone: Undertone
+    let fitzpatrick: Fitzpatrick
+    let confidence: Confidence
 
     var body: some View {
         HStack(spacing: 16) {
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color(result.representativeRGB))
+                .fill(Color(representativeRGB))
                 .frame(width: 64, height: 64)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12).stroke(.quaternary, lineWidth: 1)
                 }
+                .accessibilityLabel("Detected skin color")
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Undertone: \(result.undertone.displayName)")
+                Text("Undertone: \(undertone.displayName)")
                     .font(.headline)
-                Text("Skin type: \(result.fitzpatrick.displayName) (\(result.fitzpatrick.depthDescription))")
+                Text("Skin type: \(fitzpatrick.displayName) (\(fitzpatrick.depthDescription))")
                     .foregroundStyle(.secondary)
-                Label("Confidence: \(result.confidence.displayName)",
-                      systemImage: result.confidence == .low ? "exclamationmark.triangle" : "checkmark.seal")
+                Label("Confidence: \(confidence.displayName)",
+                      systemImage: confidence == .low ? "exclamationmark.triangle" : "checkmark.seal")
                     .font(.subheadline)
-                    .foregroundStyle(result.confidence == .low ? .orange : .secondary)
+                    .foregroundStyle(confidence == .low ? .orange : .secondary)
             }
 
             Spacer(minLength: 0)
@@ -32,11 +36,7 @@ struct SkinToneResultCard: View {
 }
 
 #Preview {
-    SkinToneResultCard(result: SkinToneResult(
-        representativeRGB: RGBColor(r: 0.80, g: 0.62, b: 0.50),
-        lab: LabColor(L: 68, a: 12, b: 22),
-        hueAngle: 61, ita: 33,
-        undertone: .warm, fitzpatrick: .typeIII, confidence: .high, sampleCount: 240
-    ))
-    .padding()
+    SkinToneResultCard(representativeRGB: RGBColor(r: 0.80, g: 0.62, b: 0.50),
+                       undertone: .warm, fitzpatrick: .typeIII, confidence: .high)
+        .padding()
 }

@@ -46,6 +46,8 @@ struct SeasonResultView: View {
                             .foregroundStyle(.secondary)
                     }
                     .frame(width: 60)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel(color.name)
                 }
             }
             .padding(.vertical, 2)

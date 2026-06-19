@@ -34,4 +34,4 @@ Then build/run the `FaceColour` scheme on an iOS 17+ simulator.
 
 ## Status
 
-**Phase 4 — shade matcher.** Selfie → skin tone → (1) 4-season type + palette and (2) closest **Monk skin-tone** shades by CIEDE2000 (`Resources/seasons.json`, `Resources/shades.json`). Color engine in `Sources/FaceColour/ColorEngine` (pure, cross-platform); see `docs/color-algorithm.md`. See `PLAN.md` for the roadmap.
+**Phase 5 — results, history & polish.** Both features (season + palette, Monk shade match) in a unified results screen, with on-device **saved history** (thumbnails), **share**, and empty/error states. Color engine in `Sources/FaceColour/ColorEngine` (pure, cross-platform); see `docs/color-algorithm.md`. See `PLAN.md` for the roadmap.

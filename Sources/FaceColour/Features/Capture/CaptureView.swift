@@ -1,11 +1,15 @@
 import SwiftUI
 import PhotosUI
 
-/// Phase 1 home screen: take or choose a selfie, then confirm a face is detected.
+/// Home screen: take/choose a selfie, see the analysis, save or share it.
 struct CaptureView: View {
+    let history: HistoryStore
+
     @State private var vm = CaptureViewModel()
     @State private var pickerItem: PhotosPickerItem?
     @State private var showCamera = false
+    @State private var showHistory = false
+    @State private var saved = false
 
     private var cameraAvailable: Bool {
         UIImagePickerController.isSourceTypeAvailable(.camera)
@@ -18,15 +22,7 @@ struct CaptureView: View {
                     VStack(spacing: 20) {
                         imageArea
                         statusView
-                        if let result = vm.skinResult {
-                            SkinToneResultCard(result: result)
-                        }
-                        if let season = vm.season, let guide = vm.seasonGuide {
-                            SeasonResultView(season: season, guide: guide)
-                        }
-                        if !vm.shadeMatches.isEmpty {
-                            ShadeMatchView(matches: vm.shadeMatches)
-                        }
+                        results
                     }
                     .padding()
                 }
@@ -36,12 +32,23 @@ struct CaptureView: View {
             }
             .navigationTitle("FaceColour")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { showHistory = true } label: {
+                        Image(systemName: "clock.arrow.circlepath")
+                    }
+                    .accessibilityLabel("History")
+                }
+            }
         }
         .sheet(isPresented: $showCamera) {
             CameraPicker { image in
                 Task { await vm.setImage(image) }
             }
             .ignoresSafeArea()
+        }
+        .sheet(isPresented: $showHistory) {
+            HistoryListView(store: history)
         }
         .onChange(of: pickerItem) { _, item in
             guard let item else { return }
@@ -52,6 +59,55 @@ struct CaptureView: View {
                 }
                 pickerItem = nil
             }
+        }
+        .onChange(of: vm.skinResult) { _, _ in saved = false }
+    }
+
+    // MARK: - Results
+
+    @ViewBuilder
+    private var results: some View {
+        if let skin = vm.skinResult, let season = vm.season {
+            ResultsView(representativeRGB: skin.representativeRGB,
+                        undertone: skin.undertone,
+                        fitzpatrick: skin.fitzpatrick,
+                        confidence: skin.confidence,
+                        season: season,
+                        guide: vm.seasonGuide,
+                        shadeMatches: vm.shadeMatches)
+            resultActions(skin: skin, season: season)
+        } else if case .detected = vm.state {
+            Label("Couldn't read skin reliably — try better lighting and face the camera.",
+                  systemImage: "exclamationmark.triangle")
+                .foregroundStyle(.orange)
+                .multilineTextAlignment(.center)
+        }
+    }
+
+    @ViewBuilder
+    private func resultActions(skin: SkinToneResult, season: Season) -> some View {
+        HStack(spacing: 12) {
+            Button {
+                if let record = vm.makeRecord() {
+                    history.add(record, thumbnail: vm.image?.thumbnail())
+                    saved = true
+                }
+            } label: {
+                Label(saved ? "Saved" : "Save",
+                      systemImage: saved ? "checkmark" : "square.and.arrow.down")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .disabled(saved)
+
+            ShareLink(item: AnalysisSummary.text(season: season,
+                                                 undertone: skin.undertone,
+                                                 fitzpatrick: skin.fitzpatrick,
+                                                 closestTone: vm.shadeMatches.first?.tone.tone)) {
+                Label("Share", systemImage: "square.and.arrow.up")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
         }
     }
 
@@ -153,5 +209,5 @@ struct CaptureView: View {
 }
 
 #Preview {
-    CaptureView()
+    CaptureView(history: HistoryStore())
 }

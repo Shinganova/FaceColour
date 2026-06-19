@@ -1,7 +1,7 @@
 import Foundation
 
 /// Skin undertone classification.
-enum Undertone: String, Equatable {
+enum Undertone: String, Codable, Equatable {
     case warm, neutral, cool
 
     /// Classify from the CIELAB hue angle (degrees, `atan2(b*, a*)`).
@@ -24,7 +24,7 @@ enum Undertone: String, Equatable {
 /// Individual Typology Angle (ITA), using the established ITA→Fitzpatrick
 /// correspondence (Del Bino et al.). This is an approximation, not a clinical
 /// classification. ITA bin boundaries are unchanged from the prior depth scale.
-enum Fitzpatrick: String, Equatable, CaseIterable {
+enum Fitzpatrick: String, Codable, Equatable, CaseIterable {
     case typeI = "I"
     case typeII = "II"
     case typeIII = "III"
@@ -61,7 +61,7 @@ enum Fitzpatrick: String, Equatable, CaseIterable {
 }
 
 /// How much to trust a result, from sample count and spread.
-enum Confidence: String, Equatable {
+enum Confidence: String, Codable, Equatable {
     case high, medium, low
     var displayName: String { rawValue.capitalized }
 }
