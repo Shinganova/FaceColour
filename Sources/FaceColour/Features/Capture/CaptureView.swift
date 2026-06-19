@@ -79,6 +79,7 @@ struct CaptureView: View {
                         season: season,
                         guide: vm.seasonGuide,
                         shadeMatches: vm.shadeMatches)
+            metricsDisclosure(skin: skin, season: season)
             resultActions(skin: skin, season: season)
             Button {
                 showShop = true
@@ -94,6 +95,30 @@ struct CaptureView: View {
                 .foregroundStyle(.orange)
                 .multilineTextAlignment(.center)
         }
+    }
+
+    @ViewBuilder
+    private func metricsDisclosure(skin: SkinToneResult, season: Season) -> some View {
+        DisclosureGroup("Analysis details") {
+            let report = CalibrationReport.text(skin: skin,
+                                                season: season,
+                                                closest: vm.shadeMatches.first)
+            VStack(alignment: .leading, spacing: 8) {
+                Text(report)
+                    .font(.footnote.monospaced())
+                    .textSelection(.enabled)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Button {
+                    UIPasteboard.general.string = report
+                } label: {
+                    Label("Copy details", systemImage: "doc.on.doc")
+                }
+                .font(.subheadline)
+            }
+            .padding(.top, 4)
+        }
+        .font(.subheadline)
+        .padding(.horizontal, 4)
     }
 
     @ViewBuilder
