@@ -29,5 +29,9 @@ just open `android/` in Android Studio. CI installs Gradle directly.
   same analysis path as the gallery picker.
 - **A5** — saved history: Save to history, list + detail (JSON + thumbnails on
   device); shared `ResultsContent` reused by the live screen and history detail.
+- **A6** — shop: "Shop your colors" with provider-agnostic `ProductService`
+  (mock by default; set `PRODUCT_API_BASE_URL` + `PRODUCT_API_KEY` via
+  `buildConfigField` for a remote provider), deep-linking out to retailers.
 
-Next: the shop.
+**Android is now at feature parity with iOS.** Remaining is the same as iOS:
+run on a device, calibrate thresholds, and store/Play submission.

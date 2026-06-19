@@ -40,6 +40,7 @@ fun AnalysisScreen(vm: AnalysisViewModel = viewModel()) {
     val context = LocalContext.current
     var showCamera by remember { mutableStateOf(false) }
     var showHistory by remember { mutableStateOf(false) }
+    var showShop by remember { mutableStateOf(false) }
 
     val galleryPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.PickVisualMedia()
@@ -59,6 +60,15 @@ fun AnalysisScreen(vm: AnalysisViewModel = viewModel()) {
 
     if (showHistory) {
         HistoryScreen(vm = vm, onClose = { showHistory = false })
+        return
+    }
+
+    if (showShop) {
+        ShopScreen(
+            season = state.season,
+            monkTone = state.shades.firstOrNull()?.tone?.tone,
+            onClose = { showShop = false }
+        )
         return
     }
 
@@ -116,6 +126,9 @@ fun AnalysisScreen(vm: AnalysisViewModel = viewModel()) {
             )
             Button(onClick = { vm.saveCurrent() }, enabled = !vm.saved) {
                 Text(if (vm.saved) "Saved" else "Save to history")
+            }
+            Button(onClick = { showShop = true }) {
+                Text("Shop your colors")
             }
         }
 

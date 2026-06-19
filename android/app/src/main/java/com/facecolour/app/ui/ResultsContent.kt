@@ -122,12 +122,13 @@ private fun Swatch(color: Color, size: Dp) {
 }
 
 @Composable
-internal fun CardBox(content: @Composable ColumnScope.() -> Unit) {
+internal fun CardBox(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.surfaceVariant)
+            .then(modifier)
             .padding(16.dp),
         content = content
     )

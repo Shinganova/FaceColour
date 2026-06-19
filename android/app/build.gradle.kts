@@ -14,6 +14,10 @@ android {
         versionCode = 1
         versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Configure a remote product provider here (or via CI/secrets); empty = mock.
+        buildConfigField("String", "PRODUCT_API_BASE_URL", "\"\"")
+        buildConfigField("String", "PRODUCT_API_KEY", "\"\"")
     }
 
     buildTypes {
@@ -33,6 +37,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     composeOptions {
