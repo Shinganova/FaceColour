@@ -38,6 +38,14 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.14"
     }
+
+    // Reuse the iOS shared data (seasons.json / shades.json) as Android assets —
+    // single source of truth across platforms.
+    sourceSets {
+        getByName("main") {
+            assets.srcDir("$rootDir/../Sources/FaceColour/Resources")
+        }
+    }
 }
 
 dependencies {
@@ -50,6 +58,13 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     debugImplementation("androidx.compose.ui:ui-tooling")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
+    implementation("com.google.mlkit:face-detection:16.1.7")
+    implementation("com.google.code.gson:gson:2.11.0")
 
     testImplementation("junit:junit:4.13.2")
 }

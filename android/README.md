@@ -19,5 +19,11 @@ The Gradle wrapper jar is intentionally not committed; generate it once as above
 just open `android/` in Android Studio. CI installs Gradle directly.
 
 ## Status
-**A0 — scaffolding.** Buildable empty Compose app + CI. Later phases add capture
-(CameraX + ML Kit), the color engine, season/shade, results/history, and the shop.
+- **A0** — scaffolding + CI.
+- **A2** — Kotlin color engine + parity tests (`engine/`).
+- **A3** — capture & analysis: pick a photo → ML Kit face detection → skin sampling
+  → engine → Compose results (skin tone, season palette, Monk shades). Shared
+  `seasons.json` / `shades.json` are wired in as Android assets from the iOS
+  Resources (single source of truth).
+
+Next: CameraX live capture, history, and the shop.
